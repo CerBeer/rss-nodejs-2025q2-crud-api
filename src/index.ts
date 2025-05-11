@@ -1,31 +1,25 @@
-import http, { IncomingMessage, ServerResponse } from "http";
+import http from "http";
 import { routeRequest } from "./router";
 import { env } from "./env";
+import { balancer } from "./balancer";
+import { routeRequestDB } from "./database/serverdb";
 
-const server = http.createServer(
-  (req: IncomingMessage, res: ServerResponse) => {
-    routeRequest(req, res);
-  },
-);
-
-server.on("request", (req) => {
-  console.log(`${req.method}:${req.url}`);
-});
+const server = http.createServer(routeRequest);
+export const serverDB = http.createServer(routeRequestDB);
 
 server.on("error", (err) => {
   console.log("error: " + err);
 });
 
-server.on("listening", () => {
-  console.log("ok, server is running");
-});
-
-server.on("connection", (item) => {
-  console.log(`connection: ${item}`);
-});
-
-server.listen(env.PORT, () => {
-  console.log(`Server listening on port ${env.PORT}`);
-});
+if (env.MULTI) {
+  balancer(server, serverDB);
+} else {
+  server.listen(env.PORT, () => {
+    console.log(`Server listening on port ${env.PORT}`);
+  });
+  serverDB.listen(env.PORTDB, () => {
+    console.log(`Server DB listening on port ${env.PORTDB}`);
+  });
+}
 
 export default server;

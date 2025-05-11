@@ -27,6 +27,12 @@ export function getUUIDFromURL(url: string): typeUUIDFromURL {
   return result;
 }
 
+export function getCommandFromURL(url: string): string {
+  const urlPath = url!.split("/");
+  if (urlPath.length < 3) return "";
+  return `${urlPath[2]}`;
+}
+
 export function getBody(request: IncomingMessage): Promise<string> {
   return new Promise((resolve) => {
     const chunks: string[] = [];

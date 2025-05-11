@@ -12,6 +12,7 @@
     "test": "jest --silent",
     "build": "webpack",
     "start:dev": "nodemon",
+    "start:dev:multi": "nodemon --multi",
     "start:prod": "webpack --mode production && node build/server.js",
     "start:multi": "webpack --mode production && node build/server.js --multi"
   },

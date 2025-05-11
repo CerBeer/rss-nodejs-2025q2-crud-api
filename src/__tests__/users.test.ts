@@ -1,7 +1,8 @@
 import supertest from "supertest";
-import server from "../index";
+import server, { serverDB } from "../index";
 
 describe("Users API", () => {
+  supertest(serverDB);
   const request = supertest(server);
 
   beforeEach(async () => {
@@ -10,6 +11,7 @@ describe("Users API", () => {
 
   afterAll(() => {
     server.close();
+    serverDB.close();
   });
 
   const newUser = {
