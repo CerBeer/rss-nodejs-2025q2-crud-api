@@ -75,6 +75,5 @@ export function balancer(server: Server, serverDB: Server) {
   } else {
     const PORT = Number(process.env.WORKER_PORT);
     server.listen(PORT);
-    // process.on("message", (data) => console.log({ data }));
   }
 }
