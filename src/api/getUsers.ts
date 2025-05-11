@@ -1,23 +1,14 @@
 import { typeUUIDFromURL, resOk, resErrors } from "./utils";
+import { Env } from "env";
 
-export default async function getUsers(uuid: typeUUIDFromURL) {
-  if (!uuid.thereIsParams)
-    return resOk.Ok([
-      {
-        username: "TestUser",
-        age: 25,
-        hobbies: ["Test", "hobbies"],
-      },
-    ]);
+export default async function getUsers(uuid: typeUUIDFromURL, env: Env) {
+  if (!uuid.thereIsParams) return resOk.Ok(env.DB.getAllUsers());
+
   if (!uuid.thereIsUUD) return resErrors.UIdI();
 
-  const user = {
-    username: "TestUser",
-    age: 25,
-    hobbies: ["Test", "hobbies"],
-  };
+  const user = env.DB.getUserById(uuid.uuid);
 
-  if (user) return resOk.Ok(user);
+  if (!user.id) return resErrors.UNF();
 
-  return resErrors.ENF();
+  return resOk.Ok(user);
 }
