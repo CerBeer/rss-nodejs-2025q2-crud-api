@@ -18,9 +18,8 @@ export default async function updateUser(
   }
 
   const { username, age, hobbies } = user;
-
-  if (validateUpdateUser(username, age, hobbies).length)
-    return resErrors.NCRF([]);
+  const validateErrors = validateUpdateUser(username, age, hobbies);
+  if (validateErrors.length) return resErrors.NCRF(validateErrors);
 
   const newUser = env.DB.updateUser(uuid.uuid, { username, age, hobbies });
 

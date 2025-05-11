@@ -76,7 +76,7 @@ export const resErrors = {
     return {
       code: 404,
       body: JSON.stringify({
-        error: "Record with id === userId doesn't exist",
+        error: "The record with the requested ID does not exist",
       }),
     };
   },

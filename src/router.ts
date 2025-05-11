@@ -12,7 +12,14 @@ export async function routeRequest(
   res: ServerResponse,
 ): Promise<void> {
   const { method, url } = req;
-  if (!url || !url.startsWith(env.ENDPOINT)) setRes(res, resErrors.ENF());
+  if (!url || !url.startsWith(env.ENDPOINT)) {
+    setRes(res, resErrors.ENF());
+    return;
+  }
+  if (url.length > env.ENDPOINT.length && !url.startsWith(`${env.ENDPOINT}/`)) {
+    setRes(res, resErrors.ENF());
+    return;
+  }
   const uuid = getUUIDFromURL(url!);
   const body = await getBody(req);
 

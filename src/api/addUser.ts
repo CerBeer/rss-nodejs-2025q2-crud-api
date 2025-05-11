@@ -12,8 +12,8 @@ export default async function addUser(body: string, env: Env) {
   }
 
   const { username, age, hobbies } = user;
-  const validate = validateUser(username, age, hobbies);
-  if (validate.length > 0) return resErrors.NCRF(validate);
+  const validateErrors = validateUser(username, age, hobbies);
+  if (validateErrors.length > 0) return resErrors.NCRF(validateErrors);
 
   const newUser = env.DB.addUser({ username, age, hobbies });
 
